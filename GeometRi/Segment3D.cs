@@ -348,25 +348,25 @@ namespace GeometRi
             double small = GeometRi3D.Tolerance;
 
 
-            //Vector3d u = this.ToVector;
-            //Vector3d v = s.ToVector;
-            //Vector3d w = new Vector3d(s.P1, this.P1);
+            Vector3d u = this.ToVector;
+            Vector3d v = s.ToVector;
+            Vector3d w = new Vector3d(s.P1, this.P1);
 
-            //double a = u * u;
-            //double b = u * v;
-            //double c = v * v;
-            //double d = u * w;
-            //double e = v * w;
+            double a = u * u;
+            double b = u * v;
+            double c = v * v;
+            double d = u * w;
+            double e = v * w;
 
-            Point3d u = this.P2 - this.P1;
-            Point3d v = s.P2 - s.P1;
-            Point3d w = this.P1 - s.P1;
+            //Point3d u = this.P2 - this.P1;
+            //Point3d v = s.P2 - s.P1;
+            //Point3d w = this.P1 - s.P1;
 
-            double a = u.Dot(u);
-            double b = u.Dot(v);
-            double c = v.Dot(v);
-            double d = u.Dot(w);
-            double e = v.Dot(w);
+            //double a = u.Dot(u);
+            //double b = u.Dot(v);
+            //double c = v.Dot(v);
+            //double d = u.Dot(w);
+            //double e = v.Dot(w);
 
             double DD = a * c - b * b;
             double sc = 0;
@@ -451,8 +451,8 @@ namespace GeometRi
             tc = Abs(tN) < small ? 0.0 : tN / tD;
 
             // get the difference of the two closest points
-            //Vector3d dP = w + (sc * u) - (tc * v);
-            Point3d dP = w + u.Subtract(v, sc, tc);
+            Vector3d dP = w + (sc * u) - (tc * v);
+            //Point3d dP = w + u.Subtract(v, sc, tc);
             // =  S1(sc) - S2(tc)
 
             p1 = sc;
