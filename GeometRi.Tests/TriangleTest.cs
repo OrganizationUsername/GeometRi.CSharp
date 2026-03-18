@@ -910,6 +910,25 @@ new Point3d(15, 15, 0)
             ;
 
         }
+
+        [TestMethod()]
+        public void TriangleSegmentIntersectMiddleOfAB_BC()
+        {
+            var lineSegment = new Segment3d(new Point3d(0.75, 0.25, 0), new Point3d(0, 1, 0));
+            var triangle = new Triangle(
+                new Point3d(0, 0, 0),
+                new Point3d(1, 0, 0),
+                new Point3d(1, 1, 0));
+
+            var intersectionWith = triangle.IntersectionWith(lineSegment);
+            Assert.IsTrue(intersectionWith is Segment3d);
+
+            var intersection = intersectionWith as Segment3d;
+            Segment3d s = new Segment3d(new Point3d(0.5, 0.5, 0), new Point3d(0.75, 0.25, 0));
+            Assert.IsTrue(intersection.Equals(s));
+        }
+
+
     }
 }
 

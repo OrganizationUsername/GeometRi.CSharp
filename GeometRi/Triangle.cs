@@ -1238,16 +1238,30 @@ namespace GeometRi
         /// </summary>
         internal object _coplanar_IntersectionWith(Line3d l)
         {
+            Point3d onAB, onBC, onAC;
+            double pos_onAB, pos_onBC, pos_onAC;
+
             // Check intersection with first two sides
-            Point3d onAB = l.PerpendicularTo(new Segment3d(_a, _b).Line);
-            Point3d onBC = l.PerpendicularTo(new Segment3d(_b, _c).Line);
+            onAB = l.PerpendicularTo(new Segment3d(_a, _b).Line);
+            onBC = l.PerpendicularTo(new Segment3d(_b, _c).Line);
             if (onAB != null && onBC != null)
             {
-                double pos_onAB = new Vector3d(_a, onAB).Dot(new Vector3d(_a, _b)) / (AB * AB);
-                double pos_onBC = new Vector3d(_b, onBC).Dot(new Vector3d(_b, _c)) / (BC * BC);
+                pos_onAB = new Vector3d(_a, onAB).Dot(new Vector3d(_a, _b)) / (AB * AB);
+                pos_onBC = new Vector3d(_b, onBC).Dot(new Vector3d(_b, _c)) / (BC * BC);
                 if (pos_onAB >= 1 - GeometRi3D.Tolerance && pos_onAB <= 1 + GeometRi3D.Tolerance &&
                     pos_onBC >= -GeometRi3D.Tolerance && pos_onBC <= GeometRi3D.Tolerance)
                 {
+                    // Check intersection with AC
+                    onAC = l.PerpendicularTo(new Segment3d(_a, _c).Line);
+                    if (onAC != null)
+                    {
+                        pos_onAC = new Vector3d(_a, onAC).Dot(new Vector3d(_a, _c)) / (AC * AC);
+                        if (pos_onAC > -GeometRi3D.Tolerance && pos_onAC <= 1 + GeometRi3D.Tolerance)
+                        {
+                            return new Segment3d(B, onAC);
+                        }
+                    }
+
                     // intersection in one point "B"
                     return B;
                 }
@@ -1259,14 +1273,24 @@ namespace GeometRi
             }
 
             //Check intersection with third side
-            Point3d onAC = l.PerpendicularTo(new Segment3d(_a, _c).Line);
+            onAC = l.PerpendicularTo(new Segment3d(_a, _c).Line);
             if (onAB != null && onAC != null)
             {
-                double pos_onAB = new Vector3d(_a, onAB).Dot(new Vector3d(_a, _b)) / (AB * AB);
-                double pos_onAC = new Vector3d(_a, onAC).Dot(new Vector3d(_a, _c)) / (AC * AC);
+                pos_onAB = new Vector3d(_a, onAB).Dot(new Vector3d(_a, _b)) / (AB * AB);
+                pos_onAC = new Vector3d(_a, onAC).Dot(new Vector3d(_a, _c)) / (AC * AC);
                 if (pos_onAB >= -GeometRi3D.Tolerance && pos_onAB <= GeometRi3D.Tolerance &&
                     pos_onAC >= -GeometRi3D.Tolerance && pos_onAC <= GeometRi3D.Tolerance)
                 {
+                    // Check intersection with BC
+                    onBC = l.PerpendicularTo(new Segment3d(_b, _c).Line);
+                    if (onBC != null)
+                    {
+                        pos_onBC = new Vector3d(_b, onBC).Dot(new Vector3d(_b, _c)) / (BC * BC);
+                        if (pos_onBC > -GeometRi3D.Tolerance && pos_onAC <= 1 + GeometRi3D.Tolerance)
+                        {
+                            return new Segment3d(A, onBC);
+                        }
+                    }
                     // intersection in one point "A"
                     return A;
                 }
@@ -1279,11 +1303,20 @@ namespace GeometRi
 
             if (onBC != null && onAC != null)
             {
-                double pos_onBC = new Vector3d(_b, onBC).Dot(new Vector3d(_b, _c)) / (BC * BC);
-                double pos_onAC = new Vector3d(_a, onAC).Dot(new Vector3d(_a, _c)) / (AC * AC);
+                pos_onBC = new Vector3d(_b, onBC).Dot(new Vector3d(_b, _c)) / (BC * BC);
+                pos_onAC = new Vector3d(_a, onAC).Dot(new Vector3d(_a, _c)) / (AC * AC);
                 if (pos_onBC >= 1 - GeometRi3D.Tolerance && pos_onBC <= 1 + GeometRi3D.Tolerance &&
                     pos_onAC >= 1 - GeometRi3D.Tolerance && pos_onAC <= 1 + GeometRi3D.Tolerance)
                 {
+                    // Check intersection with AB
+                    if (onAB != null)
+                    {
+                        pos_onAB = new Vector3d(_a, onAB).Dot(new Vector3d(_a, _b)) / (AB * AB);
+                        if (pos_onAB > -GeometRi3D.Tolerance && pos_onAC <= 1 + GeometRi3D.Tolerance)
+                        {
+                            return new Segment3d(C, onAB);
+                        }
+                    }
                     // intersection in one point "C"
                     return C;
                 }

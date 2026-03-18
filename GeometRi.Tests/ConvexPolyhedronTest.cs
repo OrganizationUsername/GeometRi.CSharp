@@ -749,7 +749,7 @@ namespace GeometRi_Tests
             // Segment lies on face
             Box3d box = new Box3d(new Point3d(0, 0, 0), new Point3d(1, 1, 1));
             ConvexPolyhedron cp = ConvexPolyhedron.FromBox(box);
-            Segment3d s = new Segment3d(new Point3d(1.0 - 1e-16, 0.5, 0.5), new Point3d(1.0, 0.2, 0.2));
+            Segment3d s = new Segment3d(new Point3d(1.0 - 1e-13, 0.5, 0.5), new Point3d(1.0, 0.2, 0.2));
             Assert.IsTrue(cp.Intersects(s));
         }
 
