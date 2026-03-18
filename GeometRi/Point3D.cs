@@ -170,7 +170,7 @@ namespace GeometRi
         internal Point3d Subtract(Point3d p, double a, double b)
         {
             if ((this._coord != p._coord))
-                p = p.ConvertTo(this._coord);
+                p = -p._coord.Origin + p.ConvertTo(this._coord);
             return new Point3d(a * this.X - b * p.X, a * this.Y - b * p.Y, a * this.Z - b * p.Z, _coord);
         }
         public Point3d Subtract(Vector3d p)
@@ -192,7 +192,7 @@ namespace GeometRi
         internal double Dot(Point3d p)
         {
             if ((this._coord != p._coord))
-                p = p.ConvertTo(this._coord);
+                p = -p._coord.Origin + p.ConvertTo(this._coord);
             return this.X * p.X + this.Y * p.Y + this.Z * p.Z;
         }
         internal double Dot(Vector3d p)
@@ -204,7 +204,7 @@ namespace GeometRi
         internal Point3d Cross(Point3d v)
         {
             if ((this._coord != v._coord))
-                v = v.ConvertTo(this._coord);
+                v = -v._coord.Origin + v.ConvertTo(this._coord);
             double x = this.Y * v.Z - this.Z * v.Y;
             double y = this.Z * v.X - this.X * v.Z;
             double z = this.X * v.Y - this.Y * v.X;

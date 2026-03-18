@@ -457,7 +457,7 @@ namespace GeometRi
         public double DistanceTo(Circle3d c, double tolerance)
         {
             double dist;
-            if (GeometRi3D.AlmostEqual(this._normal * c._normal, 1.0))
+            if (GeometRi3D.AlmostEqual(Abs(this._normal * c._normal), 1.0))
             {
                 Point3d projection = c._point.ProjectionTo(this.ToPlane);
                 dist = projection.DistanceTo(this._point);
@@ -538,7 +538,7 @@ namespace GeometRi
         public double DistanceTo(Circle3d c, out Point3d p1, out Point3d p2, double tolerance)
         {
             double dist;
-            if (GeometRi3D.AlmostEqual(this._normal * c._normal, 1.0))
+            if (GeometRi3D.AlmostEqual(Abs(this._normal * c._normal), 1.0))
             {
                 Point3d projection = c._point.ProjectionTo(this.ToPlane);
                 dist = projection.DistanceTo(this._point);
@@ -650,7 +650,7 @@ namespace GeometRi
             if (d > this.R + c.R + GeometRi3D.Tolerance + threshold)
                 return true;
 
-            if (GeometRi3D.AlmostEqual(this._normal * c._normal, 1.0))
+            if (GeometRi3D.AlmostEqual(Abs(this._normal * c._normal), 1.0))
             {
                 if (this._point.BelongsTo(new Plane3d(c._point, c._normal)))
                 {
@@ -699,7 +699,7 @@ namespace GeometRi
             }
         }
 
-        private double _distance_circle_to_circle(Circle3d c1, Circle3d c2, out Point3d p1, out Point3d p2, double tol)
+        private double _distance_circle_to_circle_new(Circle3d c1, Circle3d c2, out Point3d p1, out Point3d p2, double tol)
         {
             double dist_prev = double.PositiveInfinity;
             int max_iter = 100;
@@ -726,7 +726,7 @@ namespace GeometRi
 
         }
 
-        private double _distance_circle_to_circle_old(Circle3d c1, Circle3d c2, out Point3d p1, out Point3d p2, double tol)
+        private double _distance_circle_to_circle(Circle3d c1, Circle3d c2, out Point3d p1, out Point3d p2, double tol)
         // Use quadratic interpolation to find closest point on one circle to other
         // p1 and p2 - closest points on both circles
         {
@@ -1421,7 +1421,7 @@ namespace GeometRi
                 return false;
 
             //this._normal.IsParallelTo(c._normal)
-            if (GeometRi3D.AlmostEqual(this._normal * c._normal, 1.0))
+            if (GeometRi3D.AlmostEqual(Abs(this._normal * c._normal), 1.0))
             {
                 if (this._point.BelongsTo(new Plane3d(c._point, c._normal)))
                 {
